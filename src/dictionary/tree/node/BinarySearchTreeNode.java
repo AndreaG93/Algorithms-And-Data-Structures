@@ -1,15 +1,17 @@
-package dictionary.tree.binarytree.node;
+package dictionary.tree.node;
+
+import dictionary.tree.node.utility.NodeRelationship;
 
 /**
- * This class represents a node of an binary search tree (BST) data structure.
+ * A Java-Implementation of a binary search tree node.
  *
  * @author Andrea Graziani
- * @version 0.8
+ * @version 1.0
  */
 public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
 
     private Key key;
-    private Value element;
+    private Value value;
     private BinarySearchTreeNode<Key, Value> parent;
     private BinarySearchTreeNode<Key, Value> leftSon;
     private BinarySearchTreeNode<Key, Value> rightSon;
@@ -18,22 +20,33 @@ public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
     /**
      * Construct a newly allocated {@code BinarySearchTreeNode} object.
      *
-     * @param aKey     - It Represents type of keys.
-     * @param aElement - It Represents type of values.
+     * @param aKey   - It Represents type of keys.
+     * @param aValue - It Represents type of values.
      */
-    public BinarySearchTreeNode(Key aKey, Value aElement) {
+    public BinarySearchTreeNode(Key aKey, Value aValue) {
         this.key = aKey;
-        this.element = aElement;
+        this.value = aValue;
     }
 
+    // =================================================================== //
+    // 'Public' methods...
+    // =================================================================== //
 
+    /**
+     * This function is used to get grandparent node of current {@code BinarySearchTreeNode} object.
+     *
+     * @return A {@code BinarySearchTreeNode} object of {@code null}.
+     */
     public BinarySearchTreeNode<Key, Value> getGrandparent() {
         return (this.parent == null) ? null : this.parent.getParent();
     }
 
-
-
-    public BinarySearchTreeNode<Key, Value> getBrother() {
+    /**
+     * This function is used to get sibling node of current {@code BinarySearchTreeNode} object.
+     *
+     * @return A {@code BinarySearchTreeNode} object of {@code null}.
+     */
+    public BinarySearchTreeNode<Key, Value> getSibling() {
 
         if (this.parent != null)
             switch (this.getParentRelationship()) {
@@ -45,8 +58,11 @@ public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
         return null;
     }
 
-
-
+    /**
+     * This function is used to get uncle node of current {@code BinarySearchTreeNode} object.
+     *
+     * @return A {@code BinarySearchTreeNode} object of {@code null}.
+     */
     public BinarySearchTreeNode<Key, Value> getUncle() {
 
         BinarySearchTreeNode<Key, Value> myNodeGrandparent = this.getGrandparent();
@@ -62,11 +78,10 @@ public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
         return null;
     }
 
-
     /**
-     * This function is used to retrieve parent node of current {@code BinarySearchTreeNode} object.
+     * This function is used to get parent node of current {@code BinarySearchTreeNode} object.
      *
-     * @return A {@code BinarySearchTreeNode} object.
+     * @return A {@code BinarySearchTreeNode} object of {@code null}.
      */
     public BinarySearchTreeNode<Key, Value> getParent() {
         return this.parent;
@@ -75,7 +90,7 @@ public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
     /**
      * This function is used to retrieve left son node of current {@code BinarySearchTreeNode} object.
      *
-     * @return A {@code BinarySearchTreeNode} object.
+     * @return A {@code BinarySearchTreeNode} object of {@code null}.
      */
     public BinarySearchTreeNode<Key, Value> getLeftSon() {
         return this.leftSon;
@@ -84,7 +99,7 @@ public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
     /**
      * This function is used to retrieve right son node of current {@code BinarySearchTreeNode} object.
      *
-     * @return A {@code BinarySearchTreeNode} object.
+     * @return A {@code BinarySearchTreeNode} object of {@code null}.
      */
     public BinarySearchTreeNode<Key, Value> getRightSon() {
         return this.rightSon;
@@ -114,11 +129,13 @@ public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
         }
     }
 
-
     /**
-     * This function is used to check if current {@code BinarySearchTreeNode} object has only one son.
+     * This function is used to check if current {@code BinarySearchTreeNode} object has no son.
+     * <p>
+     * If current {@code BinarySearchTreeNode} object has no son, {@code true} is returned;
+     * otherwise {@code false} is returned.
      *
-     * @return It returns {@code true} if current {@code BinarySearchTreeNode} object has only one son, otherwise it returns {@code false}.
+     * @return A {@code boolean} value.
      */
     public boolean hasNoSon() {
         return this.leftSon == null && this.rightSon == null;
@@ -126,8 +143,11 @@ public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
 
     /**
      * This function is used to check if current {@code BinarySearchTreeNode} object has a right son.
+     * <p>
+     * If current {@code BinarySearchTreeNode} object has a right son, {@code true} is returned;
+     * otherwise {@code false} is returned.
      *
-     * @return It returns {@code true} if current {@code BinarySearchTreeNode} object has a right child, otherwise it returns {@code false}.
+     * @return A {@code boolean} value.
      */
     public boolean hasRightSon() {
         return (this.rightSon != null);
@@ -135,8 +155,11 @@ public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
 
     /**
      * This function is used to check if current {@code BinarySearchTreeNode} object has a left son.
+     * <p>
+     * If current {@code BinarySearchTreeNode} object has a left son, {@code true} is returned;
+     * otherwise {@code false} is returned.
      *
-     * @return It returns {@code true} if current {@code BinarySearchTreeNode} object has a left child, otherwise it returns {@code false}.
+     * @return A {@code boolean} value.
      */
     public boolean hasLeftSon() {
         return (this.leftSon != null);
@@ -144,15 +167,19 @@ public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
 
     /**
      * This function is used to check if current {@code BinarySearchTreeNode} object has only one son.
+     * <p>
+     * If current {@code BinarySearchTreeNode} object has only one son, {@code true} is returned;
+     * otherwise {@code false} is returned.
      *
-     * @return It returns {@code true} if current {@code BinarySearchTreeNode} object has only one son, otherwise it returns {@code false}.
+     * @return A {@code boolean} value.
      */
     public boolean hasOneSon() {
         return (this.leftSon != null && this.rightSon == null) || (this.leftSon == null && this.rightSon != null);
     }
 
     /**
-     * This function is used to switch key and value with a specified {@code BinarySearchTreeNode} object.
+     * This function is used to switch current {@code Key}-{@code Value} objects with
+     * those stored in specified {@code BinarySearchTreeNode} object.
      *
      * @param aNode - Represents a {@code BinarySearchTreeNode} object.
      */
@@ -162,9 +189,9 @@ public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
         Value tempValue;
 
         // Switch Value...
-        tempValue = this.element;
-        this.element = aNode.getElement();
-        aNode.setElement(tempValue);
+        tempValue = this.value;
+        this.value = aNode.getValue();
+        aNode.setValue(tempValue);
 
         // Switch key...
         tempKey = this.key;
@@ -172,17 +199,9 @@ public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
         aNode.setKey(tempKey);
     }
 
-
-    public boolean isRoot(){
-        return (this.getParent() == null);
-    }
-
-
-
-    // ------------------------------------------------------------------------------- //
-    // Getter and setter method...
-    // ------------------------------------------------------------------------------- //
-
+    // =================================================================== //
+    // 'Getter' and 'Setter' methods...
+    // =================================================================== //
 
     public Key getKey() {
         return key;
@@ -192,12 +211,12 @@ public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
         this.key = key;
     }
 
-    public Value getElement() {
-        return element;
+    public Value getValue() {
+        return value;
     }
 
-    public void setElement(Value element) {
-        this.element = element;
+    public void setValue(Value value) {
+        this.value = value;
     }
 
     public void setParent(BinarySearchTreeNode<Key, Value> parent) {
@@ -208,7 +227,7 @@ public class BinarySearchTreeNode<Key extends Comparable<Key>, Value> {
         return parentRelationship;
     }
 
-    public void setParentRelationship(NodeRelationship parentRelationship) {
+    void setParentRelationship(NodeRelationship parentRelationship) {
         this.parentRelationship = parentRelationship;
     }
 }

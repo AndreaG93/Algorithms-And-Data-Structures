@@ -1,11 +1,8 @@
-package junit.test.btree;
+package test.dictionary.tree;
 
-import dictionary.tree.btree.BTree;
-import dictionary.tree.btree.BTreeNode;
-import org.junit.Assert;
+import dictionary.tree.BTree;
+import dictionary.tree.node.BTreeNode;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 

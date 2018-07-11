@@ -1,14 +1,14 @@
-package junit;
+package test;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import junit.test.JUnitDictionary;
-import junit.test.tree.*;
+import test.dictionary.JUnitDictionary;
+import test.dictionary.JUnitTreeGlobalTestSuite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         JUnitDictionary.class,
-        JUnitTreeTestSuite.class,
+        JUnitTreeGlobalTestSuite.class,
 })
 public class JUnitGlobalTestSuite {
 }

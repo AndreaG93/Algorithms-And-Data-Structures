@@ -1,17 +1,23 @@
-package dictionary.tree.binarytree;
+package dictionary.tree;
 
-import dictionary.tree.binarytree.node.BinarySearchTreeNode;
+import dictionary.tree.node.BinarySearchTreeNode;
 
-
-
-public class BinarySearchTreeSplay<Key extends Comparable<Key>, Value> extends BinarySearchTree<Key, Value> {
+/**
+ * A Java-Implementation of a splay tree.
+ *
+ * @param <Key> - Represents a {@code Comparable<Key>} object.
+ * @param <Value> - Represents a {@code Value} object.
+ * @author Andrea Graziani
+ * @version 1.0
+ */
+public class SplayTree<Key extends Comparable<Key>, Value> extends BinarySearchTree<Key, Value> {
 
     // =================================================================== //
-    // Override methods...
+    // 'Override' methods...
     // =================================================================== //
 
     @Override
-    public Value insertNode(BinarySearchTreeNode<Key, Value> aNode) {
+    Value insertNode(BinarySearchTreeNode<Key, Value> aNode) {
         Value myOutput;
 
         if ((myOutput = super.insertNode(aNode)) == null)
@@ -20,7 +26,7 @@ public class BinarySearchTreeSplay<Key extends Comparable<Key>, Value> extends B
     }
 
     @Override
-    public Value removeNode(BinarySearchTreeNode<Key, Value> aNode) {
+    Value removeNode(BinarySearchTreeNode<Key, Value> aNode) {
 
         BinarySearchTreeNode<Key, Value> myParentNode = aNode.getParent();
         Value myOutput;
@@ -31,7 +37,7 @@ public class BinarySearchTreeSplay<Key extends Comparable<Key>, Value> extends B
     }
 
     @Override
-    public BinarySearchTreeNode<Key, Value> searchNode(Key aKey) {
+    BinarySearchTreeNode<Key, Value> searchNode(Key aKey) {
         BinarySearchTreeNode<Key, Value> myOutput;
 
         if ((myOutput = super.searchNode(aKey)) != null)
@@ -40,11 +46,11 @@ public class BinarySearchTreeSplay<Key extends Comparable<Key>, Value> extends B
     }
 
     // =================================================================== //
-    // Private methods...
+    // 'Private' methods...
     // =================================================================== //
 
     /**
-     * This function is used to do a node rotation.
+     * This function is used to select correct rotation for a specified {@code BinarySearchTreeNode} object.
      *
      * @param aNode - Represents a {@code BinarySearchTreeNode} object.
      */
@@ -61,24 +67,33 @@ public class BinarySearchTreeSplay<Key extends Comparable<Key>, Value> extends B
     }
 
     /**
-     * This method is used to perform a "splay" operation.
+     * This method is used to perform a 'splay' operation on a specified {@code BinarySearchTreeNode} object.
      *
      * @param aNode - Represents a {@code BinarySearchTreeNode} object.
      */
     private void splay(BinarySearchTreeNode<Key, Value> aNode) {
 
-        while (!aNode.isRoot()) {
+        while (aNode.getParent() != null) {
 
             BinarySearchTreeNode<Key, Value> myNodeParent = aNode.getParent();
 
-            if (myNodeParent.isRoot())
+            // Case 1: current parent node is root: perform 'Zig' step...
+            // =================================================================== //
+            if (aNode.getParent().getParent() == null) {
                 this.rotation(aNode);
-            else{
+            }
+            // Case 2: current parent node isn't root...
+            // =================================================================== //
+            else {
 
-                if (aNode.getParentRelationship() == myNodeParent.getParentRelationship()){
+                // Case 2.1: 'Zig-zig' step...
+                // =================================================================== //
+                if (aNode.getParentRelationship() == myNodeParent.getParentRelationship()) {
                     this.rotation(aNode.getParent());
                     this.rotation(aNode);
                 }
+                // Case 2.2: 'Zig-zag' step...
+                // =================================================================== //
                 else {
                     this.rotation(aNode);
                     this.rotation(aNode);

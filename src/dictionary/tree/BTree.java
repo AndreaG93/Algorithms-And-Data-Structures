@@ -1,23 +1,23 @@
-package dictionary.tree.btree;
+package dictionary.tree;
 
 import dictionary.Dictionary;
-
-import java.util.List;
-
+import dictionary.tree.node.BTreeNode;
 
 /**
- * treeOrder == maxchildren
+ * A Java-Implementation of a B-tree.
  *
- * @param <Key>
- * @param <Value>
+ * @param <Key> - Represents a {@code Comparable<Key>} object.
+ * @param <Value> - Represents a {@code Value} object.
+ * @author Andrea Graziani
+ * @version 1.0
  */
 public class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key, Value> {
 
     private final int TREE_ORDER;
+    private final int MIN_KEY_CARDINALITY;
     private final int MAX_KEY_CARDINALITY;
     private BTreeNode<Key, Value> root = null;
     private long size = 0;
-
 
     /**
      * Construct a newly allocated {@code BTree} object.
@@ -27,14 +27,18 @@ public class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key
     public BTree(int aTreeOrder) {
 
         this.TREE_ORDER = aTreeOrder;
+        this.MIN_KEY_CARDINALITY = TREE_ORDER - 1;
         this.MAX_KEY_CARDINALITY = 2 * TREE_ORDER - 1;
     }
 
+    // =================================================================== //
+    // 'Override'/'Public' methods...
+    // =================================================================== //
 
     @Override
     public Value insert(Key aKey, Value aValue) {
 
-        // Case 1: tree is empty...
+        // Case 1: tree is empty therefore new 'key-value' pair became new root...
         // =================================================================== //
         if (this.isEmpty()) {
 
@@ -44,46 +48,47 @@ public class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key
             myNode.getKeys().add(aKey);
             this.root = myNode;
         }
-        // Case 2: tree isn't empty: in each step, we search a leaf where insert new key...
+        // Case 2: tree isn't empty therefore we start to search a leaf where insert
+        //         specified 'key-value' pair...
         // =================================================================== //
         else {
 
             BTreeNode<Key, Value> myCurrentNode = this.root;
 
-            while (true) {
+            for (int index = 0 ;; index = 0) {
 
-                int index = 0;
-
-                // Searching correct new key position...
+                // Searching new key correct position compared to current node keys...
                 // =================================================================== //
                 for (Key myNodeKey : myCurrentNode.getKeys()) {
 
-                    // Specified key is already present; replace stored element...
+                    // Specified key is already present therefore we replace stored element...
                     if (myNodeKey.compareTo(aKey) == 0) {
-                        return myCurrentNode.getValues().set(index, aValue);
+                        return myCurrentNode.getValues().get(index);
                     }
-                    // Specified key is bigger than current stored key; increment index...
+                    // Specified key is bigger than current stored node key therefore we increment index...
                     else if (myNodeKey.compareTo(aKey) < 0) {
                         index++;
                     }
-                    // Specified key is smaller than current stored key; new key position found...
+                    // New key position found...
                     else
                         break;
                 }
 
-                // Case 1: Found node can contain our specified 'key-value' pair because is a leaf...
+                // Case 2.1: Current treenode is a leaf therefore it can contains new specified
+                //           'key-value' pair...
                 // =================================================================== //
                 if (myCurrentNode.getChildren().isEmpty()) {
 
                     myCurrentNode.getKeys().add(index, aKey);
                     myCurrentNode.getValues().add(index, aValue);
 
+                    // Checking for split operation...
                     this.split(myCurrentNode);
 
-                    return null;
+                    break;
                 }
-                // Case 2: Found node can't contain our specified 'key-value' because is not a leaf.
-                //         We continue searching in a subtree that can contain it...
+                // Case 2.2: Current treenode can't contain our specified 'key-value' because is not a leaf.
+                //           We must continue searching in a subtree that can contain it...
                 // =================================================================== //
                 else
                     myCurrentNode = myCurrentNode.getChildren().get(index);
@@ -97,102 +102,130 @@ public class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key
     @Override
     public Value remove(Key aKey) {
 
-        return null;
-        /*
-        // Case 1: tree is empty...
+        // Case 1: tree is empty therefore there are nothing to delete...
         // =================================================================== //
         if (this.isEmpty()) {
             return null;
         }
-        // Case 2: tree isn't empty...
+        // Case 2: tree isn't empty therefore we start to search a leaf that can
+        //         can contain specified key...
         // =================================================================== //
         else {
 
             BTreeNode<Key, Value> myCurrentNode = this.root;
 
-            while (true) {
+            for (int index = 0 ;; index = 0) {
 
-                int index = 0;
-
-                // Searching key-to-delete position...
+                // Searching specified key in current treenode...
                 // =================================================================== //
                 for (Key myNodeKey : myCurrentNode.getKeys()) {
 
-                    // Specified key is found; deleting started...
+                    // Specified key is found therefore we start to remove stored element...
                     if (myNodeKey.compareTo(aKey) == 0) {
 
                         this.size--;
 
-                        // Case 1: Found node is a leaf; removing 'key-value' pair...
+                        // Removing stored key...
                         // =================================================================== //
-                        if (myCurrentNode.getChildren().isEmpty()) {
+                        while(true) {
 
-                            myCurrentNode.getKeys().remove(index);
-                            return myCurrentNode.getValues().remove(index);
+                            BTreeNode<Key, Value> myPrecedingChild = getPrecedingChild(myCurrentNode);
+                            BTreeNode<Key, Value> mySuccessorChild = getSuccessorChild(myCurrentNode);
+
+                            // Case 2.1: Found treenode is a leaf...
+                            // =================================================================== //
+                            if (myCurrentNode.getChildren().isEmpty()) {
+
+
+                                // Case 2.1.1: Current treenode has
+                                // =================================================================== //
+                                if (myCurrentNode.getKeys().size() > MIN_KEY_CARDINALITY) {
+
+                                    myCurrentNode.getKeys().remove(index);
+                                    return myCurrentNode.getValues().remove(index);
+                                }
+                                // Case 2.1.1: Current treenode has
+                                // =================================================================== //
+                                else if (myCurrentNode.getKeys().size() > MIN_KEY_CARDINALITY) {
+
+                                }
+
+
+
+
+
+                            }
+                            // Case 2.2: Found treenode is an internal treenode...
+                            // =================================================================== //
+                            else {
+
+                                // Case 2.2.1: child that precedes specified key in current treenode, contains
+                                //             a keys quantity above the allowed minimum...
+                                // =================================================================== //
+                                if (myPrecedingChild.getKeys().size() > MIN_KEY_CARDINALITY){
+
+                                }
+                                // Case 2.2.2: child that follows specified key in current treenode, contains
+                                //             a keys quantity above the allowed minimum...
+                                // =================================================================== //
+                                else if (mySuccessorChild.getKeys().size() > MIN_KEY_CARDINALITY){
+
+                                }
+                                // Case 2.2.3: both children that precede and follow specified key in current treenode,
+                                //             contains a minimum keys quantity...
+                                // =================================================================== //
+                                else {
+
+                                }
+                            }
                         }
-                        // Case 2: Found node isn't a leaf...
-                        // =================================================================== //
-                        else {
-
-                        }
-
-
-
-
-
-
-
-
-
-
                     }
                     // Specified key is bigger than current stored key; increment index...
                     else if (myNodeKey.compareTo(aKey) < 0) {
                         index++;
                     }
-                    // Specified key is smaller than current stored key; new key position found...
+                    // Specified key is smaller than current stored key...
                     else
                         break;
                 }
 
-                // Case 1: Specified key not exists...
+                // Case 2.1: Current treenode is a leaf and doesn't contain our specified 'key'
+                //           therefore our remove operation terminate...
                 // =================================================================== //
                 if (myCurrentNode.getChildren().isEmpty()) {
                     return null;
                 }
-                // Case 2: Found node can't contain our specified 'key' because is not a leaf.
-                //         We continue searching in a subtree that can contain it...
+                // Case 2.2: Current treenode isn't a leaf and doesn't contain our specified 'key'
+                //           therefore we must continue searching in a subtree that can contain it...
                 // =================================================================== //
                 else
                     myCurrentNode = myCurrentNode.getChildren().get(index);
             }
         }
-        */
     }
 
     @Override
     public Value search(Key aKey) {
 
-        // Case 1: tree is empty...
+        // Case 1: tree is empty therefore our search operation terminate...
         // =================================================================== //
         if (this.isEmpty()) {
             return null;
         }
-        // Case 1: tree isn't empty...
+        // Case 2: tree isn't empty therefore we start to search a leaf that can
+        //         can contain specified key...
         // =================================================================== //
         else {
 
             BTreeNode<Key, Value> myCurrentNode = this.root;
 
-            while (true) {
+            for (int index = 0 ;; index = 0) {
 
-                int index = 0;
-
-                // Searching specified key in current node...
+                // Searching specified key in current treenode...
                 // =================================================================== //
                 for (Key myNodeKey : myCurrentNode.getKeys()) {
 
-                    // Case 1: Specified key is present, return stored element...
+                    // Specified key is found therefore we return stored element...
                     if (myNodeKey.compareTo(aKey) == 0) {
                         return myCurrentNode.getValues().get(index);
                     }
@@ -205,18 +238,20 @@ public class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key
                         break;
                 }
 
-                // Case 1: Current node is a leaf...
+                // Case 2.1: Current treenode is a leaf and doesn't contain our specified 'key'
+                //           therefore our search operation terminate...
+                // =================================================================== //
                 if (myCurrentNode.getChildren().isEmpty()) {
                     return null;
                 }
-                // Case 2: Continue searching in a subtree that can contain specified key...
-                else {
+                // Case 2.2: Current treenode isn't a leaf and doesn't contain our specified 'key'
+                //           therefore we must continue searching in a subtree that can contain it...
+                // =================================================================== //
+                else
                     myCurrentNode = myCurrentNode.getChildren().get(index);
-                }
             }
         }
     }
-
 
     @Override
     public boolean isEmpty() {
@@ -244,6 +279,9 @@ public class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key
         return null;
     }
 
+    // =================================================================== //
+    // 'Public' methods...
+    // =================================================================== //
 
     public BTreeNode<Key, Value> searchNode(Key aKey) {
 
@@ -270,7 +308,7 @@ public class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key
                     break;
             }
 
-            // If current node is a leaf add new key...
+            // If current treenode is a leaf add new key...
             // =================================================================== //
             if (myCurrentNode.getChildren().isEmpty()) {
                 return null;
@@ -284,6 +322,17 @@ public class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key
         }
     }
 
+    // =================================================================== //
+    // 'Private' methods...
+    // =================================================================== //
+
+    private BTreeNode<Key,Value> getPrecedingChild(BTreeNode<Key,Value> myCurrentNode) {
+        return null;
+    }
+
+    private BTreeNode<Key,Value> getSuccessorChild(BTreeNode<Key,Value> myCurrentNode) {
+        return null;
+    }
 
     /**
      * This method is used to split up a specified {@code BTreeNode} object..
@@ -307,7 +356,7 @@ public class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key
             Key myTKey = myCurrentNode.getKeys().get(this.TREE_ORDER - 1);
             Value myTValue = myCurrentNode.getValues().get(this.TREE_ORDER - 1);
 
-            // Getting current node's parent node and his index...
+            // Getting current treenode's parent treenode and his index...
             BTreeNode<Key, Value> myNodeParent = myCurrentNode.getParent();
             int index = myCurrentNode.getChildIndex();
 
