@@ -2,8 +2,8 @@ package test;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import test.dictionary.JUnitDictionary;
-import test.dictionary.JUnitTreeGlobalTestSuite;
+import test.datastructures.JUnitDictionary;
+import test.datastructures.JUnitTreeGlobalTestSuite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({

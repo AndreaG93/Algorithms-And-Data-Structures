@@ -1,8 +1,8 @@
-package test.dictionary.tree;
+package test.datastructures.tree;
 
-import dictionary.tree.BinarySearchTree;
-import dictionary.tree.node.BinarySearchTreeNode;
-import dictionary.tree.utility.BinaryTreeVisitJob;
+import datastructures.tree.BinarySearchTree;
+import datastructures.tree.node.BinarySearchTreeNode;
+import datastructures.tree.utility.BinaryTreeVisitJob;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 

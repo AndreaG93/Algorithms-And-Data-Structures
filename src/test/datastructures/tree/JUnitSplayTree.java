@@ -1,8 +1,8 @@
-package test.dictionary.tree;
+package test.datastructures.tree;
 
-import dictionary.tree.SplayTree;
-import dictionary.tree.node.BinarySearchTreeNode;
-import dictionary.tree.utility.BinaryTreeVisitJob;
+import datastructures.tree.SplayTree;
+import datastructures.tree.node.BinarySearchTreeNode;
+import datastructures.tree.utility.BinaryTreeVisitJob;
 import org.junit.Test;
 
 public class JUnitSplayTree extends JUnitBinarySearchTree {

@@ -1,4 +1,4 @@
-package dictionary.tree.node;
+package datastructures.tree.node;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,7 @@
-package dictionary.tree;
+package datastructures.tree;
 
-import dictionary.tree.node.AVLTreeNode;
-import dictionary.tree.node.BinarySearchTreeNode;
+import datastructures.tree.node.AVLTreeNode;
+import datastructures.tree.node.BinarySearchTreeNode;
 
 /**
  * A Java-Implementation of an AVL tree.

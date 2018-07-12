@@ -1,10 +1,10 @@
-package test.dictionary.tree;
+package test.datastructures.tree;
 
-import dictionary.tree.RBTree;
-import dictionary.tree.node.BinarySearchTreeNode;
-import dictionary.tree.node.RBTreeNode;
-import dictionary.tree.node.utility.NodeColor;
-import dictionary.tree.utility.BinaryTreeVisitJob;
+import datastructures.tree.RBTree;
+import datastructures.tree.node.BinarySearchTreeNode;
+import datastructures.tree.node.RBTreeNode;
+import datastructures.tree.node.utility.NodeColor;
+import datastructures.tree.utility.BinaryTreeVisitJob;
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;

@@ -1,4 +1,4 @@
-package dictionary.tree;
+package datastructures.tree;
 
 public class TwoThreeTree {
 }

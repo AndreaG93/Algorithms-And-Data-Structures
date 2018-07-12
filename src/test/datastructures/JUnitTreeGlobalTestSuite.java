@@ -1,11 +1,11 @@
-package test.dictionary;
+package test.datastructures;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import test.dictionary.tree.JUnitAVLTree;
-import test.dictionary.tree.JUnitBinarySearchTree;
-import test.dictionary.tree.JUnitRBTree;
-import test.dictionary.tree.JUnitSplayTree;
+import test.datastructures.tree.JUnitAVLTree;
+import test.datastructures.tree.JUnitBinarySearchTree;
+import test.datastructures.tree.JUnitRBTree;
+import test.datastructures.tree.JUnitSplayTree;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({

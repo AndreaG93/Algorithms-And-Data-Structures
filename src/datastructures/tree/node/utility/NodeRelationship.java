@@ -1,4 +1,4 @@
-package dictionary.tree.node.utility;
+package datastructures.tree.node.utility;
 
 /**
  * This enum is used to represent parent relationship for {@code BinarySearchTreeNode} object.

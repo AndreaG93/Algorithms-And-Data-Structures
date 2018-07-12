@@ -1,13 +1,11 @@
-package dictionary.tree;
+package datastructures.tree;
 
-import dictionary.Dictionary;
-import dictionary.tree.node.BinarySearchTreeNode;
-import dictionary.tree.node.utility.NodeRelationship;
-import dictionary.tree.utility.BinaryTreeVisitJob;
+import datastructures.Dictionary;
+import datastructures.tree.node.BinarySearchTreeNode;
+import datastructures.tree.node.utility.NodeRelationship;
+import datastructures.tree.utility.BinaryTreeVisitJob;
 
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * A Java-Implementation of a binary search tree.

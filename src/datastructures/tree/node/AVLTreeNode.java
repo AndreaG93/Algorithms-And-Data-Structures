@@ -1,4 +1,4 @@
-package dictionary.tree.node;
+package datastructures.tree.node;
 
 /**
  * A Java-Implementation of an AVL tree node.

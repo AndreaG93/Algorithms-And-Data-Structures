@@ -1,7 +1,7 @@
-package test.dictionary.tree;
+package test.datastructures.tree;
 
-import dictionary.tree.BTree;
-import dictionary.tree.node.BTreeNode;
+import datastructures.tree.BTree;
+import datastructures.tree.node.BTreeNode;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

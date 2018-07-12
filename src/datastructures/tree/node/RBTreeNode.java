@@ -1,6 +1,6 @@
-package dictionary.tree.node;
+package datastructures.tree.node;
 
-import dictionary.tree.node.utility.NodeColor;
+import datastructures.tree.node.utility.NodeColor;
 
 /**
  * A Java-Implementation of a RB-tree node.

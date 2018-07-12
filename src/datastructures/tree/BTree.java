@@ -1,7 +1,7 @@
-package dictionary.tree;
+package datastructures.tree;
 
-import dictionary.Dictionary;
-import dictionary.tree.node.BTreeNode;
+import datastructures.Dictionary;
+import datastructures.tree.node.BTreeNode;
 
 /**
  * A Java-Implementation of a B-tree.

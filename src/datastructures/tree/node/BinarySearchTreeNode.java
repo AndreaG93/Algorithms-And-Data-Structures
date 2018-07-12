@@ -1,6 +1,6 @@
-package dictionary.tree.node;
+package datastructures.tree.node;
 
-import dictionary.tree.node.utility.NodeRelationship;
+import datastructures.tree.node.utility.NodeRelationship;
 
 /**
  * A Java-Implementation of a binary search tree node.

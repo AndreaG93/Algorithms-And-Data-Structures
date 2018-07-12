@@ -1,6 +1,6 @@
-package dictionary.tree.utility;
+package datastructures.tree.utility;
 
-import dictionary.tree.node.BinarySearchTreeNode;
+import datastructures.tree.node.BinarySearchTreeNode;
 
 /**
  * An interface for {@code BinarySearchTreeNode} object visiting.

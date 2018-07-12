@@ -1,9 +1,9 @@
-package dictionary.tree;
+package datastructures.tree;
 
-import dictionary.tree.node.utility.NodeColor;
-import dictionary.tree.node.utility.NodeRelationship;
-import dictionary.tree.node.BinarySearchTreeNode;
-import dictionary.tree.node.RBTreeNode;
+import datastructures.tree.node.utility.NodeColor;
+import datastructures.tree.node.utility.NodeRelationship;
+import datastructures.tree.node.BinarySearchTreeNode;
+import datastructures.tree.node.RBTreeNode;
 
 /**
  * A Java-Implementation of a RB-tree.

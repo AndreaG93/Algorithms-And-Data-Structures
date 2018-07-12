@@ -1,9 +1,9 @@
-package test.dictionary;
+package test.datastructures;
 
-import dictionary.Dictionary;
-import dictionary.tree.BinarySearchTree;
-import dictionary.tree.AVLTree;
-import dictionary.tree.SplayTree;
+import datastructures.Dictionary;
+import datastructures.tree.BinarySearchTree;
+import datastructures.tree.AVLTree;
+import datastructures.tree.SplayTree;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -69,7 +69,7 @@ public class JUnitDictionary {
     @Test
     public void testAllImplementedDictionary(){
 
-        // Tree-Based dictionary...
+        // Tree-Based datastructures...
         // =================================================================== //
         this.dictionaryTestMethod(new BinarySearchTree<>());
         this.dictionaryTestMethod(new AVLTree<>());
