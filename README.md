@@ -2,7 +2,7 @@
 ![](https://img.shields.io/badge/Release-0.1.1-red.svg)
 ![](https://img.shields.io/badge/Status-Partially_tested-orange.svg)
 
-# Algorithms and data structures
+# Algorithms-And-Data-Structures
 This repository contains **Java implementations** of some data structures and algorithms used in computer science.
 
 Data structures and algorithms available:<br/>
