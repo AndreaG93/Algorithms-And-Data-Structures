@@ -1,52 +1,49 @@
-package sortingalgorithm;
+package sorting.algorithms;
+
+import sorting.SortingAlgorithm;
 
 /**
- * A Java-Implementation of heapsort algorithm (recursive implementation).
+ * This class contains a A Java-Implementation of "HeapSort" algorithm.
  *
  * @author Andrea Graziani
  * @version 1.0
  */
-public class Heapsort {
-
-    // =================================================================== //
-    // 'Public' methods...
-    // =================================================================== //
+@SuppressWarnings("unused")
+        // Safe, it is call by "Reflection"...
+class HeapSort<Key extends Comparable<Key>> implements SortingAlgorithm<Key> {
 
     /**
-     * This function is used to sort a specified unsorted array of {@code Key} object.
-     *
-     * @param anArray - Represents a {@code Comparable} object array.
+     * Constructs a newly allocated {@code HeapSort} object.
      */
-    public static <Key extends Comparable<Key>> void sort(Key[] anArray) {
+    @SuppressWarnings("unused") // Safe, it is call by "Reflection"...
+    public HeapSort() {
+    }
 
-        int myEndIndex = anArray.length - 1;
+    @Override
+    public void sort(Key[] pArray) {
+        int myEndIndex = pArray.length - 1;
 
         // Creating Heap...
         // =================================================================== //
-        buildHeap(anArray, 0, myEndIndex);
+        buildHeap(pArray, 0, myEndIndex);
 
         // Heap has been created: starting sorting...
         // =================================================================== //
-        while(myEndIndex >= 0)
-        {
-            swap(anArray, 0, myEndIndex);
+        while (myEndIndex >= 0) {
+            swap(pArray, 0, myEndIndex);
             myEndIndex--;
-            fixHeap(anArray,0, myEndIndex);
+            fixHeap(pArray, 0, myEndIndex);
         }
     }
-
-    // =================================================================== //
-    // 'Private' methods...
-    // =================================================================== //
 
     /**
      * This function is used to build an heap from a specified {@code Key} object array.
      *
-     * @param anArray - Represents a {@code Key} object array.
+     * @param anArray         - Represents a {@code Key} object array.
      * @param aStartNodeIndex - Represents an {@code int} value.
-     * @param aEndNodeIndex - Represents an {@code int} value.
+     * @param aEndNodeIndex   - Represents an {@code int} value.
      */
-    private static <Key extends Comparable<Key>> void buildHeap(Key[] anArray, int aStartNodeIndex, int aEndNodeIndex) {
+    private void buildHeap(Key[] anArray, int aStartNodeIndex, int aEndNodeIndex) {
 
         // Case 1: If current
         if (aStartNodeIndex < anArray.length - 1) {
@@ -59,15 +56,15 @@ public class Heapsort {
     /**
      * This function is used to fix an heap-node according to heap property.
      *
-     * @param anArray - Represents a {@code Key} object array.
-     * @param aNodeIndex - Represents an {@code int} value.
+     * @param anArray       - Represents a {@code Key} object array.
+     * @param aNodeIndex    - Represents an {@code int} value.
      * @param aEndNodeIndex - Represents an {@code int} value.
      */
-    private static <Key extends Comparable<Key>> void fixHeap(Key[] anArray, int aNodeIndex, int aEndNodeIndex) {
+    private void fixHeap(Key[] anArray, int aNodeIndex, int aEndNodeIndex) {
 
         // Case 1: If current heap-node isn't a leaf...
         // =================================================================== //
-        if (2 * aNodeIndex + 1 <= aEndNodeIndex){
+        if (2 * aNodeIndex + 1 <= aEndNodeIndex) {
 
             // Current heap-node has certainly a LEFT son...
             // =================================================================== //
@@ -91,11 +88,11 @@ public class Heapsort {
     /**
      * This function is used to swap specified heap-nodes.
      *
-     * @param anArray - Represents a {@code Key} object array.
+     * @param anArray     - Represents a {@code Key} object array.
      * @param aNodeIndex1 - Represents an {@code int} value.
      * @param aNodeIndex2 - Represents an {@code int} value.
      */
-    private static <Key extends Comparable<Key>> void swap(Key[] anArray, int aNodeIndex1, int aNodeIndex2) {
+    private void swap(Key[] anArray, int aNodeIndex1, int aNodeIndex2) {
 
         Key parent = anArray[aNodeIndex1];
         anArray[aNodeIndex1] = anArray[aNodeIndex2];

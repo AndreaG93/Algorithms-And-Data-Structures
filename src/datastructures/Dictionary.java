@@ -1,7 +1,7 @@
 package datastructures;
 
 /**
- * This class represents a datastructures.
+ * This class represents a dictionary.
  *
  * @param <Key>   - It Represents type of keys.
  * @param <Value> - It Represents type of values.

@@ -1,20 +1,25 @@
-package test.sortingalgorithm;
+package test.sorting;
 
 import org.junit.Test;
-import sortingalgorithm.Heapsort;
+import sorting.SortingAlgorithm;
+import sorting.algorithms._SortingAlgorithmFactory;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-public class JUnitHeapsort {
+public class JUnitSortingTest {
 
 
-
-    @Test
-    public void test(){
+    private void sortingTest(SortingAlgorithm pSortingAlgorithm){
 
         Integer[] myIntegerArray = {5, 3, 27, 8, 49, 13, 0, 333, 21, 1993, 12};
-        Heapsort.sort(myIntegerArray);
+        String[] myStringArray = {"Kumiko", "Akko", "Nano", "Haruna", "Diana"};
 
+        // Sorting...
+        pSortingAlgorithm.sort(myIntegerArray);
+        pSortingAlgorithm.sort(myStringArray);
+
+        // Checking (myIntegerArray)...
         assertEquals(myIntegerArray[0], (Integer) 0);
         assertEquals(myIntegerArray[1], (Integer) 3);
         assertEquals(myIntegerArray[2], (Integer) 5);
@@ -27,13 +32,32 @@ public class JUnitHeapsort {
         assertEquals(myIntegerArray[9], (Integer) 333);
         assertEquals(myIntegerArray[10], (Integer) 1993);
 
-        String[] myStringArray = {"Kumiko", "Akko", "Nano", "Haruna", "Diana"};
-        Heapsort.sort(myStringArray);
-
+        // Checking (myStringArray)...
         assertEquals(myStringArray[0], "Akko");
         assertEquals(myStringArray[1], "Diana");
         assertEquals(myStringArray[2], "Haruna");
         assertEquals(myStringArray[3], "Kumiko");
         assertEquals(myStringArray[4], "Nano");
+    }
+
+
+
+
+
+
+
+
+    @Test
+    public void test(){
+
+        SortingAlgorithm myMergeSortAlgorithm = _SortingAlgorithmFactory.getSortingAlgorithm(_SortingAlgorithmFactory.MERGE_SORT);
+        SortingAlgorithm myHeapSortAlgorithm = _SortingAlgorithmFactory.getSortingAlgorithm(_SortingAlgorithmFactory.HEAP_SORT);
+
+        assertNotNull(myMergeSortAlgorithm);
+        assertNotNull(myHeapSortAlgorithm);
+
+
+        sortingTest(myMergeSortAlgorithm);
+        sortingTest(myHeapSortAlgorithm);
     }
 }
