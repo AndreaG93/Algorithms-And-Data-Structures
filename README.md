@@ -1,5 +1,5 @@
 ![](https://img.shields.io/badge/Programming_Language-Java-green.svg)
-![](https://img.shields.io/badge/Release-0.1.1-red.svg)
+![](https://img.shields.io/badge/Release-0.2.0-red.svg)
 ![](https://img.shields.io/badge/Status-Partially_tested-orange.svg)
 
 # Algorithms-And-Data-Structures
@@ -9,6 +9,7 @@ Data structures and algorithms available:<br/>
 
 1. **Sorting algorithms**:<br/>
 	* *Heapsort*
+	* *MergeSort*
 
 2. **Data structures**:<br/>
 	1. **Tree**
@@ -17,8 +18,9 @@ Data structures and algorithms available:<br/>
 		* *Splay tree*;
 		* *B-tree*;
 		* *Red-black tree*; 
-		* *2-3 tree*; 
-		* *2-3-4 tree*;
+	2. **Buffer**
+		* *Circual Buffer*;
+
 	
 ### Required libraries
 Following libraries are required to test the application
