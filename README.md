@@ -8,7 +8,7 @@ This repository contains **Java implementations** of some data structures and al
 Data structures and algorithms available:<br/>
 
 1. **Sorting algorithms**:<br/>
-	* *Heapsort*
+	* *HeapSort*
 	* *MergeSort*
 
 2. **Data structures**:<br/>
