@@ -13,7 +13,7 @@ import datastructures.tree.node.RBTreeNode;
  * @author Andrea Graziani
  * @version 1.0
  */
-public class RBTree<Key extends Comparable<Key>, Value> extends BinarySearchTree<Key, Value> {
+class RBTree<Key extends Comparable<Key>, Value> extends BinarySearchTree<Key, Value> {
 
     // =================================================================== //
     // 'Override'/'Public' methods...

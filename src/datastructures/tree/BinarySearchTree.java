@@ -1,6 +1,6 @@
 package datastructures.tree;
 
-import datastructures.Dictionary;
+import datastructures.Tree;
 import datastructures.tree.node.BinarySearchTreeNode;
 import datastructures.tree.node.utility.NodeRelationship;
 import datastructures.tree.utility.BinaryTreeVisitJob;
@@ -8,39 +8,35 @@ import datastructures.tree.utility.BinaryTreeVisitJob;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * A Java-Implementation of a binary search tree.
+ * This class represents a Java-Implementation of a binary search tree.
  *
- * @param <Key> - Represents a {@code Comparable<Key>} object.
- * @param <Value> - Represents a {@code Value} object.
+ * @param <Key>   - It represents an object its class extends {@code Comparable} class.
+ * @param <Value> - It represents a generic object.
  * @author Andrea Graziani
- * @version 1.0
+ * @version 1.3
  */
-public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Dictionary<Key, Value> {
+class BinarySearchTree<Key extends Comparable<Key>, Value> implements Tree<Key, Value> {
 
     BinarySearchTreeNode<Key, Value> root = null;
     long size = 0;
 
-    // =================================================================== //
-    // 'Override'/'Public' methods...
-    // =================================================================== //
-
     @Override
-    public Value insert(Key aKey, Value aValue) {
-        return this.insertNode(new BinarySearchTreeNode<>(aKey, aValue));
+    public Value insert(Key pKey, Value pValue) {
+        return this.insertNode(new BinarySearchTreeNode<>(pKey, pValue));
     }
 
     @Override
-    public Value remove(Key aKey) {
-        BinarySearchTreeNode<Key, Value> myNode = this.searchNode(aKey);
-        return (myNode == null) ? null : removeNode(myNode);
+    public Value remove(Key pKey) {
+        BinarySearchTreeNode<Key, Value> mNode = this.searchNode(pKey);
+        return (mNode == null) ? null : removeNode(mNode);
     }
 
     @Override
-    public Value search(Key aKey) {
+    public Value search(Key pKey) {
 
-        BinarySearchTreeNode<Key, Value> myNode;
+        BinarySearchTreeNode<Key, Value> mNode;
 
-        return ((myNode = searchNode(aKey)) == null) ? null : myNode.getValue();
+        return ((mNode = searchNode(pKey)) == null) ? null : mNode.getValue();
     }
 
     @Override
@@ -62,27 +58,19 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Dic
     @Override
     public Value getMax() {
 
-        BinarySearchTreeNode<Key, Value> myNode;
-        return ((myNode = getMaxNode(this.root)) == null) ? null : myNode.getValue();
+        BinarySearchTreeNode<Key, Value> mNode;
+        return ((mNode = getMaxNode(this.root)) == null) ? null : mNode.getValue();
     }
 
     @Override
     public Value getMin() {
 
-        BinarySearchTreeNode<Key, Value> myNode;
-        return ((myNode = getMinNode(this.root)) == null) ? null : myNode.getValue();
+        BinarySearchTreeNode<Key, Value> mNode;
+        return ((mNode = getMinNode(this.root)) == null) ? null : mNode.getValue();
     }
 
-    // =================================================================== //
-    // 'Public' methods...
-    // =================================================================== //
-
-    /**
-     * Perform a 'breadth-first-search' on current tree.
-     *
-     * @param aVisitJob - Represents a {@code BinaryTreeVisitJob} object.
-     */
-    public void BFSVisit(BinaryTreeVisitJob<Key, Value> aVisitJob) {
+    @Override
+    public void BFSVisit(BinaryTreeVisitJob<Key, Value> pVisitJob) {
 
         LinkedBlockingQueue<BinarySearchTreeNode<Key, Value>> myQueue = new LinkedBlockingQueue<>();
 
@@ -93,7 +81,7 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Dic
 
             if (myCurrentNode != null){
 
-                aVisitJob.visit(myCurrentNode);
+                pVisitJob.visit(myCurrentNode);
 
                 if (myCurrentNode.hasLeftSon())
                     myQueue.add(myCurrentNode.getLeftSon());
@@ -103,10 +91,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Dic
         }
     }
 
-    // =================================================================== //
-    // 'Package Private' methods...
-    // =================================================================== //
-
     /**
      * This function is used to insert a new {@code BinarySearchTreeNode} object into current tree.
      * <p>
@@ -115,15 +99,15 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Dic
      * <p>
      * Otherwise, specified {@code BinarySearchTreeNode} object is inserted to tree and {@code null} is returned.
      *
-     * @param aNode - Represents a {@code BinarySearchTreeNode} object.
+     * @param pNode - Represents a {@code BinarySearchTreeNode} object.
      * @return A {@code Value} object or {@code null}.
      */
-    Value insertNode(BinarySearchTreeNode<Key, Value> aNode) {
+    Value insertNode(BinarySearchTreeNode<Key, Value> pNode) {
 
         // Case 1: tree is empty therefore new 'BinarySearchTreeNode' became new root...
         // =================================================================== //
         if (this.isEmpty()) {
-            this.root = aNode;
+            this.root = pNode;
         }
         // Case 2: tree isn't empty therefore we start to search position where insert
         //         specified 'BinarySearchTreeNode'...
@@ -132,20 +116,20 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Dic
 
             // Searching correct position...
             // =================================================================== //
-            for (BinarySearchTreeNode<Key, Value> myCurrentTreeNode = this.root, myParentTreeNode; ; ) {
+            for (BinarySearchTreeNode<Key, Value> mCurrentTreeNode = this.root, mParentTreeNode; ; ) {
 
-                myParentTreeNode = myCurrentTreeNode;
-                int comparisonResult = myCurrentTreeNode.getKey().compareTo(aNode.getKey());
+                mParentTreeNode = mCurrentTreeNode;
+                int comparisonResult = mCurrentTreeNode.getKey().compareTo(pNode.getKey());
 
                 // Specified 'BinarySearchTreeNode' key is smaller than current node key:
                 // we continue searching on left subtree...
                 // =================================================================== //
                 if (comparisonResult > 0) {
-                    myCurrentTreeNode = myCurrentTreeNode.getLeftSon();
+                    mCurrentTreeNode = mCurrentTreeNode.getLeftSon();
 
                     // Previous node is a leaf therefore we can add new node...
-                    if (myCurrentTreeNode == null) {
-                        myParentTreeNode.setLeftSon(aNode);
+                    if (mCurrentTreeNode == null) {
+                        mParentTreeNode.setLeftSon(pNode);
                         break;
                     }
 
@@ -154,19 +138,19 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Dic
                 // we continue searching on right subtree...
                 // =================================================================== //
                 else if (comparisonResult < 0) {
-                    myCurrentTreeNode = myCurrentTreeNode.getRightSon();
+                    mCurrentTreeNode = mCurrentTreeNode.getRightSon();
 
                     // Previous node is a leaf therefore we can add new node...
-                    if (myCurrentTreeNode == null) {
-                        myParentTreeNode.setRightSon(aNode);
+                    if (mCurrentTreeNode == null) {
+                        mParentTreeNode.setRightSon(pNode);
                         break;
                     }
                 }
                 // Specified 'BinarySearchTreeNode' key is already present therefore we replace stored value...
                 // =================================================================== //
                 else {
-                    Value myOldValue = myCurrentTreeNode.getValue();
-                    myCurrentTreeNode.setValue(aNode.getValue());
+                    Value myOldValue = mCurrentTreeNode.getValue();
+                    mCurrentTreeNode.setValue(pNode.getValue());
                     return myOldValue;
                 }
             }
@@ -183,26 +167,26 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Dic
      * If current tree contains a node mapped with specified {@code Key}, its corresponding {@code Value} object is
      * returned and node is definitively removed; otherwise {@code null} is returned.
      *
-     * @param aNode - Represents a {@code BinarySearchTreeNode} object.
+     * @param pNode - Represents a {@code BinarySearchTreeNode} object.
      * @return A {@code Value} object or {@code null}.
      */
-    Value removeNode(BinarySearchTreeNode<Key, Value> aNode) {
+    Value removeNode(BinarySearchTreeNode<Key, Value> pNode) {
 
-        BinarySearchTreeNode<Key, Value> myNodeParent = aNode.getParent();
+        BinarySearchTreeNode<Key, Value> mNodeParent = pNode.getParent();
 
         // Case 1: Current node is a leaf...
         // =================================================================== //
-        if (aNode.hasNoSon()) {
+        if (pNode.hasNoSon()) {
 
             // Case 1.1: Current node isn't tree root...
             // =================================================================== //
-            if (myNodeParent != null) {
-                switch (aNode.getParentRelationship()) {
+            if (mNodeParent != null) {
+                switch (pNode.getParentRelationship()) {
                     case isLeftSon:
-                        myNodeParent.setLeftSon(null);
+                        mNodeParent.setLeftSon(null);
                         break;
                     case isRightSon:
-                        myNodeParent.setRightSon(null);
+                        mNodeParent.setRightSon(null);
                         break;
                 }
             }
@@ -213,20 +197,20 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Dic
         }
         // Case 2: Current node has one son...
         // =================================================================== //
-        else if (aNode.hasOneSon()) {
+        else if (pNode.hasOneSon()) {
 
             // Getting child...
-            BinarySearchTreeNode<Key, Value> myNodeSon = (aNode.hasLeftSon()) ? aNode.getLeftSon() : aNode.getRightSon();
+            BinarySearchTreeNode<Key, Value> myNodeSon = (pNode.hasLeftSon()) ? pNode.getLeftSon() : pNode.getRightSon();
 
             // Case 2.1: Current node isn't tree root...
             // =================================================================== //
-            if (myNodeParent != null) {
-                switch (aNode.getParentRelationship()) {
+            if (mNodeParent != null) {
+                switch (pNode.getParentRelationship()) {
                     case isLeftSon:
-                        myNodeParent.setLeftSon(myNodeSon);
+                        mNodeParent.setLeftSon(myNodeSon);
                         break;
                     case isRightSon:
-                        myNodeParent.setRightSon(myNodeSon);
+                        mNodeParent.setRightSon(myNodeSon);
                         break;
                 }
             }
@@ -242,15 +226,15 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Dic
         // Case 3: Current node has two sons...
         // =================================================================== //
         else {
-            BinarySearchTreeNode<Key, Value> predecessor = this.getPredecessorNode(aNode);
+            BinarySearchTreeNode<Key, Value> predecessor = this.getPredecessorNode(pNode);
 
-            aNode.switchWith(predecessor);
+            pNode.switchWith(predecessor);
             removeNode(predecessor);
             return predecessor.getValue();
         }
 
         this.size--;
-        return aNode.getValue();
+        return pNode.getValue();
     }
 
     /**
@@ -259,33 +243,33 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Dic
      * If current tree contains a {@code BinarySearchTreeNode} object mapped with specified {@code Key}, it will be
      * returned; otherwise {@code null} is returned.
      *
-     * @param aKey - Represents a {@code Key} object.
+     * @param pKey - Represents a {@code Key} object.
      * @return A {@code BinarySearchTreeNode} object or {@code null}.
      */
-    BinarySearchTreeNode<Key, Value> searchNode(Key aKey) {
+    BinarySearchTreeNode<Key, Value> searchNode(Key pKey) {
 
         // Searching a 'BinarySearchTreeNode' mapped with specified key...
         // =================================================================== //
-        for (BinarySearchTreeNode<Key, Value> myCurrentNode = this.root; myCurrentNode != null; ) {
+        for (BinarySearchTreeNode<Key, Value> mCurrentNode = this.root; mCurrentNode != null; ) {
 
-            int comparisonResult = myCurrentNode.getKey().compareTo(aKey);
+            int comparisonResult = mCurrentNode.getKey().compareTo(pKey);
 
             // Specified key is smaller than current node key: we continue searching on
             // left subtree...
             // =================================================================== //
             if (comparisonResult < 0) {
-                myCurrentNode = myCurrentNode.getRightSon();
+                mCurrentNode = mCurrentNode.getRightSon();
             }
             // Specified key is bigger than current node key: we continue searching on
             // right subtree...
             // =================================================================== //
             else if (comparisonResult > 0) {
-                myCurrentNode = myCurrentNode.getLeftSon();
+                mCurrentNode = mCurrentNode.getLeftSon();
             }
             // Specified key is found...
             // =================================================================== //
             else
-                return myCurrentNode;
+                return mCurrentNode;
         }
         return null;
     }
@@ -293,67 +277,67 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Dic
     /**
      * This function is used to perform a right rotation of a specified {@code BinarySearchTreeNode} object.
      *
-     * @param aNode - Represents a {@code BinarySearchTreeNode} object.
+     * @param pNode - Represents a {@code BinarySearchTreeNode} object.
      */
-    void rightRotation(BinarySearchTreeNode<Key, Value> aNode) {
+    void rightRotation(BinarySearchTreeNode<Key, Value> pNode) {
 
-        BinarySearchTreeNode<Key, Value> myNodeParent = aNode.getParent();
-        BinarySearchTreeNode<Key, Value> myNodeLeftSon = aNode.getLeftSon();
+        BinarySearchTreeNode<Key, Value> mNodeParent = pNode.getParent();
+        BinarySearchTreeNode<Key, Value> mNodeLeftSon = pNode.getLeftSon();
 
         // Managing 'parent' node...
         // =================================================================== //
-        if (myNodeParent != null) {
+        if (mNodeParent != null) {
 
-            switch (aNode.getParentRelationship()) {
+            switch (pNode.getParentRelationship()) {
                 case isLeftSon:
-                    myNodeParent.setLeftSon(myNodeLeftSon);
+                    mNodeParent.setLeftSon(mNodeLeftSon);
                     break;
                 case isRightSon:
-                    myNodeParent.setRightSon(myNodeLeftSon);
+                    mNodeParent.setRightSon(mNodeLeftSon);
                     break;
             }
         } else {
-            this.root = myNodeLeftSon;
-            myNodeLeftSon.setParent(null);
+            this.root = mNodeLeftSon;
+            mNodeLeftSon.setParent(null);
         }
 
         // Finishing...
         // =================================================================== //
-        aNode.setLeftSon(myNodeLeftSon.getRightSon());
-        myNodeLeftSon.setRightSon(aNode);
+        pNode.setLeftSon(mNodeLeftSon.getRightSon());
+        mNodeLeftSon.setRightSon(pNode);
     }
 
     /**
      * This function is used to perform a left rotation of a specified {@code BinarySearchTreeNode} object.
      *
-     * @param aNode - Represents a {@code BinarySearchTreeNode} object.
+     * @param pNode - Represents a {@code BinarySearchTreeNode} object.
      */
-    void leftRotation(BinarySearchTreeNode<Key, Value> aNode) {
+    void leftRotation(BinarySearchTreeNode<Key, Value> pNode) {
 
-        BinarySearchTreeNode<Key, Value> myNodeParent = aNode.getParent();
-        BinarySearchTreeNode<Key, Value> myNodeRightSon = aNode.getRightSon();
+        BinarySearchTreeNode<Key, Value> mNodeParent = pNode.getParent();
+        BinarySearchTreeNode<Key, Value> mNodeRightSon = pNode.getRightSon();
 
         // Managing 'parent' node...
         // =================================================================== //
-        if (myNodeParent != null) {
+        if (mNodeParent != null) {
 
-            switch (aNode.getParentRelationship()) {
+            switch (pNode.getParentRelationship()) {
                 case isLeftSon:
-                    myNodeParent.setLeftSon(myNodeRightSon);
+                    mNodeParent.setLeftSon(mNodeRightSon);
                     break;
                 case isRightSon:
-                    myNodeParent.setRightSon(myNodeRightSon);
+                    mNodeParent.setRightSon(mNodeRightSon);
                     break;
             }
         } else {
-            this.root = myNodeRightSon;
-            myNodeRightSon.setParent(null);
+            this.root = mNodeRightSon;
+            mNodeRightSon.setParent(null);
         }
 
         // Finishing...
         // =================================================================== //
-        aNode.setRightSon(myNodeRightSon.getLeftSon());
-        myNodeRightSon.setLeftSon(aNode);
+        pNode.setRightSon(mNodeRightSon.getLeftSon());
+        mNodeRightSon.setLeftSon(pNode);
     }
 
     /**
@@ -431,10 +415,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> implements Dic
             return mySuccessor;
         }
     }
-
-    // =================================================================== //
-    // 'Private' methods...
-    // =================================================================== //
 
     /**
      * This function is used to search node with max key from a specified root {@code BinarySearchTreeNode}

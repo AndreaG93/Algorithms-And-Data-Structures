@@ -4,65 +4,58 @@ import datastructures.tree.node.AVLTreeNode;
 import datastructures.tree.node.BinarySearchTreeNode;
 
 /**
- * A Java-Implementation of an AVL tree.
+ * This class represents a Java-Implementation of an AVL tree.
  *
- * @param <Key> - Represents a {@code Comparable<Key>} object.
- * @param <Value> - Represents a {@code Value} object.
+ * @param <Key>   - It represents an object its class extends {@code Comparable} class.
+ * @param <Value> - It represents a generic object.
  * @author Andrea Graziani
- * @version 1.0
+ * @version 1.3
  */
-public class AVLTree<Key extends Comparable<Key>, Value> extends BinarySearchTree<Key, Value> {
-
-    // =================================================================== //
-    // 'Override'/'Public' methods...
-    // =================================================================== //
+@SuppressWarnings("unused")
+class AVLTree<Key extends Comparable<Key>, Value> extends BinarySearchTree<Key, Value> {
 
     @Override
-    public Value insert(Key aKey, Value aValue) {
-        return this.insertNode(new AVLTreeNode<>(aKey, aValue));
+    public Value insert(Key pKey, Value pValue) {
+        return this.insertNode(new AVLTreeNode<>(pKey, pValue));
     }
 
     @Override
-    public Value remove(Key aKey) {
-        AVLTreeNode<Key, Value> myNode = (AVLTreeNode<Key, Value>) this.searchNode(aKey);
-        return (myNode == null) ? null : removeNode(myNode);
+    public Value remove(Key pKey) {
+        AVLTreeNode<Key, Value> mNode = (AVLTreeNode<Key, Value>) this.searchNode(pKey);
+        return (mNode == null) ? null : removeNode(mNode);
     }
 
-    // =================================================================== //
-    // 'Override' methods...
-    // =================================================================== //
-
     @Override
-    Value insertNode(BinarySearchTreeNode<Key, Value> aNode) {
+    Value insertNode(BinarySearchTreeNode<Key, Value> pNode) {
 
-        Value myOutputValue = super.insertNode(aNode);
+        Value mOutputValue = super.insertNode(pNode);
 
-        if (myOutputValue != null)
-            return myOutputValue;
+        if (mOutputValue != null)
+            return mOutputValue;
         else {
-            this.updateNodeSubtreesHeightAlongTree((AVLTreeNode<Key, Value>) aNode);
+            this.updateNodeSubtreesHeightAlongTree((AVLTreeNode<Key, Value>) pNode);
             return null;
         }
     }
 
     @Override
-    Value removeNode(BinarySearchTreeNode<Key, Value> aNode) {
+    Value removeNode(BinarySearchTreeNode<Key, Value> pNode) {
 
-        BinarySearchTreeNode<Key, Value> myNodeParent = aNode.getParent();
+        BinarySearchTreeNode<Key, Value> mNodeParent = pNode.getParent();
 
         // Case 1: Current node is a leaf...
         // =================================================================== //
-        if (aNode.hasNoSon()) {
+        if (pNode.hasNoSon()) {
 
             // Case 1.1: Current node isn't tree root...
             // =================================================================== //
-            if (myNodeParent != null) {
-                switch (aNode.getParentRelationship()) {
+            if (mNodeParent != null) {
+                switch (pNode.getParentRelationship()) {
                     case isLeftSon:
-                        myNodeParent.setLeftSon(null);
+                        mNodeParent.setLeftSon(null);
                         break;
                     case isRightSon:
-                        myNodeParent.setRightSon(null);
+                        mNodeParent.setRightSon(null);
                         break;
                 }
             }
@@ -72,24 +65,24 @@ public class AVLTree<Key extends Comparable<Key>, Value> extends BinarySearchTre
                 this.root = null;
 
             // Update subtree heights...
-            this.updateNodeSubtreesHeightAlongTree((AVLTreeNode<Key, Value>) myNodeParent);
+            this.updateNodeSubtreesHeightAlongTree((AVLTreeNode<Key, Value>) mNodeParent);
         }
         // Case 2: Current node has one son...
         // =================================================================== //
-        else if (aNode.hasOneSon()) {
+        else if (pNode.hasOneSon()) {
 
             // Getting child...
-            BinarySearchTreeNode<Key, Value> myNodeSon = (aNode.hasLeftSon()) ? aNode.getLeftSon() : aNode.getRightSon();
+            BinarySearchTreeNode<Key, Value> myNodeSon = (pNode.hasLeftSon()) ? pNode.getLeftSon() : pNode.getRightSon();
 
             // Case 2.1: Current node isn't tree root...
             // =================================================================== //
-            if (myNodeParent != null) {
-                switch (aNode.getParentRelationship()) {
+            if (mNodeParent != null) {
+                switch (pNode.getParentRelationship()) {
                     case isLeftSon:
-                        myNodeParent.setLeftSon(myNodeSon);
+                        mNodeParent.setLeftSon(myNodeSon);
                         break;
                     case isRightSon:
-                        myNodeParent.setRightSon(myNodeSon);
+                        mNodeParent.setRightSon(myNodeSon);
                         break;
                 }
             }
@@ -101,54 +94,50 @@ public class AVLTree<Key extends Comparable<Key>, Value> extends BinarySearchTre
             }
 
             // Update subtree heights...
-            this.updateNodeSubtreesHeightAlongTree((AVLTreeNode<Key, Value>) myNodeParent);
+            this.updateNodeSubtreesHeightAlongTree((AVLTreeNode<Key, Value>) mNodeParent);
         }
         // Case 3: Current node has two sons...
         // =================================================================== //
         else {
-            BinarySearchTreeNode<Key, Value> predecessor = this.getPredecessorNode(aNode);
+            BinarySearchTreeNode<Key, Value> predecessor = this.getPredecessorNode(pNode);
 
-            aNode.switchWith(predecessor);
+            pNode.switchWith(predecessor);
             removeNode(predecessor);
-            this.updateNodeSubtreesHeightAlongTree((AVLTreeNode<Key, Value>) aNode);
+            this.updateNodeSubtreesHeightAlongTree((AVLTreeNode<Key, Value>) pNode);
             return predecessor.getValue();
         }
 
         this.size--;
-        return aNode.getValue();
+        return pNode.getValue();
     }
 
-    // =================================================================== //
-    // 'Private' methods...
-    // =================================================================== //
-
     /**
-     * This function is used to select correct rotation for a specified unbalanced {@code AVLTreeNode} object.
+     * This method is used to select correct rotation for a specified unbalanced {@code AVLTreeNode} object.
      *
-     * @param aNode - Represents an {@code AVLTreeNode} object.
+     * @param pNode - Represents an {@code AVLTreeNode} object.
      */
-    private void rotation(AVLTreeNode<Key, Value> aNode) {
+    private void rotation(AVLTreeNode<Key, Value> pNode) {
 
-        long myBalanceFactor = aNode.getBalanceFactor();
+        long mBalanceFactor = pNode.getBalanceFactor();
 
         // Case 1: LEFT subtree is higher by 2 than RIGHT subtree
         // =================================================================== //
-        if (myBalanceFactor == 2) {
+        if (mBalanceFactor == 2) {
 
             // Case 1.1: LL imbalance...
             // =================================================================== //
-            if (((AVLTreeNode) aNode.getLeftSon()).getBalanceFactor() >= 0) {
-                this.rightRotation(aNode);
-                this.updateNodeSubtreesHeightAlongTree(aNode);
+            if (((AVLTreeNode) pNode.getLeftSon()).getBalanceFactor() >= 0) {
+                this.rightRotation(pNode);
+                this.updateNodeSubtreesHeightAlongTree(pNode);
             }
             // Case 1.2: LR imbalance...
             // =================================================================== //
             else {
-                AVLTreeNode<Key, Value> x = (AVLTreeNode<Key, Value>) aNode.getLeftSon();
+                AVLTreeNode<Key, Value> x = (AVLTreeNode<Key, Value>) pNode.getLeftSon();
                 leftRotation(x);
-                rightRotation(aNode);
+                rightRotation(pNode);
 
-                aNode.updateSubtreesHeight();
+                pNode.updateSubtreesHeight();
                 this.updateNodeSubtreesHeightAlongTree(x);
             }
         }
@@ -158,43 +147,43 @@ public class AVLTree<Key extends Comparable<Key>, Value> extends BinarySearchTre
 
             // Case 2.1: RR imbalance...
             // =================================================================== //
-            if (((AVLTreeNode) aNode.getRightSon()).getBalanceFactor() <= 0) {
-                this.leftRotation(aNode);
-                this.updateNodeSubtreesHeightAlongTree(aNode);
+            if (((AVLTreeNode) pNode.getRightSon()).getBalanceFactor() <= 0) {
+                this.leftRotation(pNode);
+                this.updateNodeSubtreesHeightAlongTree(pNode);
             }
             // Case 2.2: imbalance...
             // =================================================================== //
             else {
-                AVLTreeNode<Key, Value> x = (AVLTreeNode<Key, Value>) aNode.getRightSon();
+                AVLTreeNode<Key, Value> x = (AVLTreeNode<Key, Value>) pNode.getRightSon();
                 rightRotation(x);
-                leftRotation(aNode);
+                leftRotation(pNode);
 
-                aNode.updateSubtreesHeight();
+                pNode.updateSubtreesHeight();
                 this.updateNodeSubtreesHeightAlongTree(x);
             }
         }
     }
 
     /**
-     * This function is used to update subtrees height from a specified node up to root tree.
+     * This method is used to update subtrees height from a specified node up to root tree.
      *
-     * @param aNode - It represents an {@code AVLTreeNode} object
+     * @param pNode - It represents an {@code AVLTreeNode} object
      */
-    private void updateNodeSubtreesHeightAlongTree(AVLTreeNode<Key, Value> aNode) {
+    private void updateNodeSubtreesHeightAlongTree(AVLTreeNode<Key, Value> pNode) {
 
-        AVLTreeNode<Key, Value> currentNode = aNode;
+        AVLTreeNode<Key, Value> mCurrentNode = pNode;
 
-        while (currentNode != null) {
+        while (mCurrentNode != null) {
 
             // Update subtree height...
-            currentNode.updateSubtreesHeight();
+            mCurrentNode.updateSubtreesHeight();
 
             // Check for unbalanced...
-            if (Math.abs(currentNode.getBalanceFactor()) > 1) {
-                this.rotation(currentNode);
+            if (Math.abs(mCurrentNode.getBalanceFactor()) > 1) {
+                this.rotation(mCurrentNode);
                 return;
             } else
-                currentNode = (AVLTreeNode<Key, Value>) currentNode.getParent();
+                mCurrentNode = (AVLTreeNode<Key, Value>) mCurrentNode.getParent();
 
         }
     }

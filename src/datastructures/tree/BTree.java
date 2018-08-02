@@ -4,14 +4,15 @@ import datastructures.Dictionary;
 import datastructures.tree.node.BTreeNode;
 
 /**
- * A Java-Implementation of a B-tree.
+ * This class represents a Java-Implementation of B-tree.
  *
- * @param <Key> - Represents a {@code Comparable<Key>} object.
- * @param <Value> - Represents a {@code Value} object.
+ * @param <Key>   - It represents an object its class extends {@code Comparable} class.
+ * @param <Value> - It represents a generic object.
  * @author Andrea Graziani
- * @version 1.0
+ * @version 1.3
  */
-public class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key, Value> {
+@SuppressWarnings("unused")
+class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key, Value> {
 
     private final int TREE_ORDER;
     private final int MIN_KEY_CARDINALITY;
@@ -30,10 +31,6 @@ public class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key
         this.MIN_KEY_CARDINALITY = TREE_ORDER - 1;
         this.MAX_KEY_CARDINALITY = 2 * TREE_ORDER - 1;
     }
-
-    // =================================================================== //
-    // 'Override'/'Public' methods...
-    // =================================================================== //
 
     @Override
     public Value insert(Key aKey, Value aValue) {
@@ -279,10 +276,12 @@ public class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key
         return null;
     }
 
-    // =================================================================== //
-    // 'Public' methods...
-    // =================================================================== //
 
+    /**
+     *
+     * @param aKey
+     * @return
+     */
     public BTreeNode<Key, Value> searchNode(Key aKey) {
 
         BTreeNode<Key, Value> myCurrentNode = this.root;
@@ -322,9 +321,7 @@ public class BTree<Key extends Comparable<Key>, Value> implements Dictionary<Key
         }
     }
 
-    // =================================================================== //
-    // 'Private' methods...
-    // =================================================================== //
+
 
     private BTreeNode<Key,Value> getPrecedingChild(BTreeNode<Key,Value> myCurrentNode) {
         return null;

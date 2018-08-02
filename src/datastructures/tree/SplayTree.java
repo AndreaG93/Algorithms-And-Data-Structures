@@ -10,7 +10,7 @@ import datastructures.tree.node.BinarySearchTreeNode;
  * @author Andrea Graziani
  * @version 1.0
  */
-public class SplayTree<Key extends Comparable<Key>, Value> extends BinarySearchTree<Key, Value> {
+class SplayTree<Key extends Comparable<Key>, Value> extends BinarySearchTree<Key, Value> {
 
     // =================================================================== //
     // 'Override' methods...

@@ -9,7 +9,6 @@ import sorting.SortingAlgorithm;
  * @version 1.0
  */
 @SuppressWarnings("unused")
-        // Safe, it is call by "Reflection"...
 class HeapSort<Key extends Comparable<Key>> implements SortingAlgorithm<Key> {
 
     /**
